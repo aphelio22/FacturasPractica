@@ -49,6 +49,11 @@ public class FacturasAdapter extends RecyclerView.Adapter<FacturasAdapter.Factur
         return facturas.size();
     }
 
+    public void setFacturas(List<FacturasVO.Factura> facturas) {
+        this.facturas = facturas;
+        notifyDataSetChanged();
+    }
+
     public class FacturasViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         private TextView tvEstado;
         private TextView tvImporte;
