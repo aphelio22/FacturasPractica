@@ -35,6 +35,15 @@ public class FiltrosActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_filtros);
 
+        //Funcionamiento del botón de resetear filtros
+        Button resetFiltrosButton = findViewById(R.id.eliminar);
+        resetFiltrosButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                resetearFiltros();
+            }
+        });
+
         //Volver a la actividad principal usando la "X" del Layout
         MenuHost menu = this;
         menu.addMenuProvider(new MenuProvider() {
@@ -145,14 +154,15 @@ public class FiltrosActivity extends AppCompatActivity {
             }
         });
     }
+    //Método para restablecer los filtros con el botón de resetear filtros
     private void resetearFiltros() {
-// Restablecer valores de fecha
+    // Restablecer valores de fecha
         Button fechaDesde = findViewById(R.id.fechaDesde);
         fechaDesde.setText("Dia/Mes/Año");
         Button fechaHasta = findViewById(R.id.fechaHasta);
         fechaHasta.setText("Dia/Mes/Año");
 
-// Restablecer valor de seekBar
+    // Restablecer valor de seekBar
         SeekBar seekBar = findViewById(R.id.seekBar);
         int maxImporte = MainActivity.maxImporte.intValue() + 1;
         seekBar.setMax(maxImporte);
@@ -160,7 +170,7 @@ public class FiltrosActivity extends AppCompatActivity {
         TextView tvValorImporte = findViewById(R.id.valorSeekBar);
         tvValorImporte.setText(String.valueOf(maxImporte));
 
-// Restablecer valores de checkboxes
+    // Restablecer valores de checkboxes
         CheckBox pagadas = findViewById(R.id.checkBox1);
         pagadas.setChecked(false);
         CheckBox anuladas = findViewById(R.id.planPago);

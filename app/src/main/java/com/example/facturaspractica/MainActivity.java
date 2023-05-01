@@ -134,13 +134,13 @@ public class MainActivity extends AppCompatActivity implements Callback<Facturas
                 if (factura.getDescEstado().equals("Pagada") && checkBoxPagadas) {
                     listFiltro2.add(factura);
                 }
-                if (factura.getDescEstado().equals("Pendiente de Pago") && checkBoxPagadas2) {
+                if (factura.getDescEstado().equals("Anuladas") && checkBoxPagadas2) {
                     listFiltro2.add(factura);
                 }
-                if (factura.getDescEstado().equals("Anuladas") && checkBoxPagadas3) {
+                if (factura.getDescEstado().equals("cuotaFija") && checkBoxPagadas3) {
                     listFiltro2.add(factura);
                 }
-                if (factura.getDescEstado().equals("cuotaFija") && checkBoxPagadas4) {
+                if (factura.getDescEstado().equals("Pendiente de pago") && checkBoxPagadas4) {
                     listFiltro2.add(factura);
                 }
                 if (factura.getDescEstado().equals("planPago") && checkBoxPagadas5) {
