@@ -16,7 +16,7 @@ public class ApiAdapter {
         OkHttpClient.Builder httpClient = new OkHttpClient.Builder();
         httpClient.addInterceptor(logging);
 
-        String baseUrl = "https://viewnextandroid.wiremockapi.cloud/";
+        String baseUrl = "https://viewnextandroid.mocklab.io/";
 
         if (API_SERVICE == null) {
             Retrofit retrofit = new Retrofit.Builder()
