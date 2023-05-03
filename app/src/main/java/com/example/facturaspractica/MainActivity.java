@@ -63,6 +63,7 @@ public class MainActivity extends AppCompatActivity implements Callback<Facturas
                 return false;
             }
         });
+
         rv1 = findViewById(R.id.rv1);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
         rv1.setLayoutManager(linearLayoutManager);
@@ -71,7 +72,6 @@ public class MainActivity extends AppCompatActivity implements Callback<Facturas
         rv1.setAdapter(adaptadorFacturas);
         Call<FacturasVO> llamada = ApiAdapter.getApiService().getObjetoFacturasVO();
         llamada.enqueue(this);
-
     }
 
     @Override
@@ -79,46 +79,78 @@ public class MainActivity extends AppCompatActivity implements Callback<Facturas
         if (response.isSuccessful()) {
             FacturasVO facturas = response.body();
             facturasList = facturas.getFacturas();
-
-
-
-                maxImporte = Double.valueOf(facturasList.stream().max(Comparator.comparing(FacturasVO.Factura::getImporteOrdenacion)).get().getImporteOrdenacion());
-
-
+            maxImporte = Double.valueOf(facturasList.stream().max(Comparator.comparing(FacturasVO.Factura::getImporteOrdenacion)).get().getImporteOrdenacion());
 
             //Recibir los datos desde la otra actividad en forma de objeto
-
             String recibirDatos = getIntent().getStringExtra("filtro");
             if (recibirDatos != null) {
                 Filtrar filtrar = new Gson().fromJson(recibirDatos, Filtrar.class);
                 List<FacturasVO.Factura> listFiltro = facturasList;
 
-
-
-                //Comprobación
-                listFiltro = ccomprobarChekBox(filtrar.getEstado(), listFiltro);
+                //Se usan los métodos creados para filtrar por fecha, importe y por checkBox
                 listFiltro = comprobrarFiltroFechas(filtrar.getFechaMax(), filtrar.getFechaMin(), listFiltro);
                 listFiltro = comprobarBarraImporte(filtrar.getMaxValuesSlider(), listFiltro);
+                listFiltro = ccomprobarChekBox(filtrar.getEstado(), listFiltro);
 
+                //Se declara que si la lista está vacía se llame al método "mostrarMensajeVacio()"
                 if (listFiltro.isEmpty()){
                     mostrarMensajeFiltroVacio();
-                }
+                } //Si no está vacía lo que contenga "listFiltro" se carga en "facturasList"
                 facturasList = listFiltro;
-
             }
             adaptadorFacturas = new FacturasAdapter(facturasList);
             rv1.setAdapter(adaptadorFacturas);
-
-
         }
-
     }
 
     @Override
     public void onFailure(Call<FacturasVO> call, Throwable t) {
-
+    // No OP
     }
 
+    //Método para filtrar por fechas
+    private List<FacturasVO.Factura> comprobrarFiltroFechas(String fechaMax, String fechaMin, List<FacturasVO.Factura> listFiltro) {
+        ArrayList<FacturasVO.Factura> facturasFiltradas = new ArrayList<>();
+        if (!fechaMin.equals("Dia/Mes/Año") && !fechaMax.equals("Dia/Mes/Año")) {
+            SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyyy");
+            Date fechaMinDate = null;
+            Date fechaMaxDate = null;
+
+            try {
+                fechaMinDate = sdf.parse(fechaMin);
+                fechaMaxDate = sdf.parse(fechaMax);
+            } catch (ParseException e) {
+                throw new RuntimeException(e);
+            }
+
+            for (FacturasVO.Factura factura : listFiltro) {
+                Date fechaFactura = null;
+                try {
+                    fechaFactura = sdf.parse(factura.getFecha());
+                } catch (ParseException e) {
+                    throw new RuntimeException(e);
+                }
+                if (fechaFactura.after(fechaMinDate) && fechaFactura.before(fechaMaxDate)) {
+                    facturasFiltradas.add(factura);
+                }
+            }
+            listFiltro = facturasFiltradas;
+        }
+        return listFiltro;
+    }
+
+    //Método para para filtrar por barra de importe
+    private List<FacturasVO.Factura> comprobarBarraImporte(Double importeFiltro, List<FacturasVO.Factura>listFiltro){
+        ArrayList<FacturasVO.Factura> listFiltroSeekBar = new ArrayList<>();
+        for (FacturasVO.Factura factura : listFiltro) {
+            if (factura.getImporteOrdenacion() < importeFiltro) {
+                listFiltroSeekBar.add(factura);
+            }
+            listFiltro=listFiltroSeekBar;
+        }
+        return listFiltro;
+    }
+    //Método para filtrar por CheckBox
     private List<FacturasVO.Factura> ccomprobarChekBox(HashMap<String, Boolean> estado, List<FacturasVO.Factura> listFiltro) {
         //Comprobar si están seleccionados los checkBoxes
         boolean checkBoxPagadas = estado.get("pagada");
@@ -151,67 +183,27 @@ public class MainActivity extends AppCompatActivity implements Callback<Facturas
         }
         return listFiltro;
     }
-    private List<FacturasVO.Factura> comprobrarFiltroFechas(String fechaMax, String fechaMin, List<FacturasVO.Factura> listFiltro) {
 
-        ArrayList<FacturasVO.Factura> facturasFiltradas = new ArrayList<>();
-
-        if (!fechaMin.equals("Dia/Mes/Año") && !fechaMax.equals("Dia/Mes/Año")) {
-            SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyyy");
-            Date fechaMinDate = null;
-            Date fechaMaxDate = null;
-
-            try {
-                fechaMinDate = sdf.parse(fechaMin);
-                fechaMaxDate = sdf.parse(fechaMax);
-            } catch (ParseException e) {
-                throw new RuntimeException(e);
-            }
-
-            for (FacturasVO.Factura factura : listFiltro) {
-                Date fechaFactura = null;
-                try {
-                    fechaFactura = sdf.parse(factura.getFecha());
-                } catch (ParseException e) {
-                    throw new RuntimeException(e);
-                }
-                if (fechaFactura.after(fechaMinDate) && fechaFactura.before(fechaMaxDate)) {
-                    facturasFiltradas.add(factura);
-                }
-            }
-            listFiltro = facturasFiltradas;
-        }
-        return listFiltro;
-    }
-    private List<FacturasVO.Factura> comprobarBarraImporte(Double importeFiltro, List<FacturasVO.Factura>listFiltro){
-
-        ArrayList<FacturasVO.Factura> listFiltroSeekBar = new ArrayList<>();
-
-        for (FacturasVO.Factura factura : listFiltro) {
-
-            if (factura.getImporteOrdenacion() < importeFiltro) {
-                listFiltroSeekBar.add(factura);
-            }
-            listFiltro=listFiltroSeekBar;
-
-        }
-        return listFiltro;
-    }
+    //Método para mostrar mensaje de "Aquí no hay nada" cuando no hay facturas cargadas en la lista
     private void mostrarMensajeFiltroVacio(){
 
-        TextView textView = new TextView(MainActivity.this);
-        textView.setText("Aqui no hay nada");
-        textView.setTextSize(30);
-        textView.setVisibility(View.INVISIBLE);
-
-        textView.setVisibility(View.VISIBLE);
+    //Se crea el Relative Layout y se hace visible el TextView cuando la lista está vacía
         RelativeLayout layout = new RelativeLayout(MainActivity.this);
         RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(
                 RelativeLayout.LayoutParams.WRAP_CONTENT,
                 RelativeLayout.LayoutParams.WRAP_CONTENT
         );
+
+        //Creación del TextView que mostrará el mensaje de "Aquí no hay nada" si la lista de facturas está vacía
+        TextView textView = new TextView(MainActivity.this);
+        textView.setText("Aqui no hay nada");
+        textView.setTextSize(30);
+
         params.addRule(RelativeLayout.CENTER_IN_PARENT);
         layout.addView(textView, params);
         setContentView(layout);
+
+
 
 
 
