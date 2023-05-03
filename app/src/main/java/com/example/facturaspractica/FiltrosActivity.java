@@ -27,7 +27,6 @@ import java.util.HashMap;
 
 public class FiltrosActivity extends AppCompatActivity {
     private SeekBar importeSeekBar;
-    DatePickerDialog datePickerDialog;
     private int valorActualSeekBar;
 
     @Override
@@ -35,45 +34,14 @@ public class FiltrosActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_filtros);
 
-        //Funcionamiento del botón de resetear filtros
-        Button resetFiltrosButton = findViewById(R.id.eliminar);
-        resetFiltrosButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                resetearFiltros();
-            }
-        });
-
-        //Volver a la actividad principal usando la "X" del Layout
-        MenuHost menu = this;
-        menu.addMenuProvider(new MenuProvider() {
-            @Override
-            public void onCreateMenu(@NonNull Menu menu, @NonNull MenuInflater menuInflater) {
-                menuInflater.inflate(R.menu.menu_filtrillos, menu);
-            }
-
-            @Override
-            public boolean onMenuItemSelected(@NonNull MenuItem menuItem) {
-                switch (menuItem.getItemId()){
-                    case R.id.vuelta:
-                        Intent intent = new Intent(FiltrosActivity.this, MainActivity.class);
-                        startActivity(intent);
-                        return true;
-                }
-                return false;
-            }
-        });
-
-        //Construcción del SeekBar
+        //Declaración del SeekBar
         TextView valorSeekBar = (TextView) findViewById(R.id.valorSeekBar);
         int valorMax = MainActivity.maxImporte.intValue()+1;
-
         importeSeekBar = findViewById(R.id.seekBar);
         importeSeekBar.setMax(valorMax);
         importeSeekBar.setProgress(valorMax);
         valorSeekBar.setText(String.valueOf(valorMax));
         valorActualSeekBar = valorMax;
-
         importeSeekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
@@ -108,6 +76,7 @@ public class FiltrosActivity extends AppCompatActivity {
                 dpd.show();
             }
         });
+
         //fechaHasta
         Button fechaHasta = (Button) findViewById(R.id.fechaHasta);
         fechaHasta.setOnClickListener(new View.OnClickListener() {
@@ -122,7 +91,7 @@ public class FiltrosActivity extends AppCompatActivity {
                 dpd.show();
             }
         });
-        Button botonFiltrar = findViewById(R.id.aplicar);
+
         //Construcción de los checkBox
         CheckBox checkBox1 = (CheckBox) findViewById(R.id.checkBox1);
         CheckBox checkBox2 = (CheckBox) findViewById(R.id.anuladas);
@@ -131,8 +100,8 @@ public class FiltrosActivity extends AppCompatActivity {
         CheckBox checkBox5 = (CheckBox) findViewById(R.id.planPago);
         Button botonDesde = (Button) findViewById(R.id.fechaDesde);
 
-        //Botón aplicar para aplicar filtros y llevar todos los filtros como un objeto
-
+        //Botón para aplicar filtros y llevarlos todos como un objeto a la MainActivity
+        Button botonFiltrar = findViewById(R.id.aplicar);
         botonFiltrar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -153,7 +122,37 @@ public class FiltrosActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
+        //Volver a la actividad principal usando la "X" del Layout
+        MenuHost menu = this;
+        menu.addMenuProvider(new MenuProvider() {
+            @Override
+            public void onCreateMenu(@NonNull Menu menu, @NonNull MenuInflater menuInflater) {
+                menuInflater.inflate(R.menu.menu_filtrillos, menu);
+            }
+
+            @Override
+            public boolean onMenuItemSelected(@NonNull MenuItem menuItem) {
+                switch (menuItem.getItemId()){
+                    case R.id.vuelta:
+                        Intent intent = new Intent(FiltrosActivity.this, MainActivity.class);
+                        startActivity(intent);
+                        return true;
+                }
+                return false;
+            }
+        });
+
+        //Funcionamiento del botón de resetear filtros
+        Button resetFiltrosButton = findViewById(R.id.eliminar);
+        resetFiltrosButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                resetearFiltros();
+            }
+        });
     }
+
     //Método para restablecer los filtros con el botón de resetear filtros
     private void resetearFiltros() {
     // Restablecer valores de fecha
