@@ -93,12 +93,11 @@ public class FiltrosActivity extends AppCompatActivity {
         });
 
         //Construcción de los checkBox
-        CheckBox checkBox1 = (CheckBox) findViewById(R.id.checkBox1);
-        CheckBox checkBox2 = (CheckBox) findViewById(R.id.anuladas);
-        CheckBox checkBox3 = (CheckBox) findViewById(R.id.cuotaFija);
-        CheckBox checkBox4 = (CheckBox) findViewById(R.id.pendientesPago);
-        CheckBox checkBox5 = (CheckBox) findViewById(R.id.planPago);
-        Button botonDesde = (Button) findViewById(R.id.fechaDesde);
+        CheckBox pagadas = (CheckBox) findViewById(R.id.checkBox1); //1
+        CheckBox anuladas = (CheckBox) findViewById(R.id.anuladas); //2
+        CheckBox cuotaFija = (CheckBox) findViewById(R.id.cuotaFija); //3
+        CheckBox pendientesPago = (CheckBox) findViewById(R.id.pendientesPago); //4
+        CheckBox planPago = (CheckBox) findViewById(R.id.planPago); //5
 
         //Botón para aplicar filtros y llevarlos todos como un objeto a la MainActivity
         Button botonFiltrar = findViewById(R.id.aplicar);
@@ -109,11 +108,11 @@ public class FiltrosActivity extends AppCompatActivity {
                 Intent intent = new Intent(FiltrosActivity.this, MainActivity.class);
                 double maxValueSlider = Double.parseDouble(valorSeekBar.getText().toString());
                 HashMap<String, Boolean> estado = new HashMap<>();
-                estado.put("pagada", checkBox1.isChecked());
-                estado.put("anulada", checkBox2.isChecked());
-                estado.put("cuotaFija", checkBox3.isChecked());
-                estado.put("pendientePago", checkBox4.isChecked());
-                estado.put("planPago", checkBox5.isChecked());
+                estado.put("pagadas", pagadas.isChecked());
+                estado.put("anuladas", anuladas.isChecked());
+                estado.put("cuotaFija", cuotaFija.isChecked());
+                estado.put("pendientesPago", pendientesPago.isChecked());
+                estado.put("planPago", planPago.isChecked());
                 String fechaMin = fechaDesde.getText().toString();
                 String fechaMax = fechaHasta.getText().toString();
                 Filtrar miFiltro = new Filtrar(fechaMax, fechaMin, maxValueSlider, estado);

@@ -153,29 +153,29 @@ public class MainActivity extends AppCompatActivity implements Callback<Facturas
     //Método para filtrar por CheckBox
     private List<FacturasVO.Factura> ccomprobarChekBox(HashMap<String, Boolean> estado, List<FacturasVO.Factura> listFiltro) {
         //Comprobar si están seleccionados los checkBoxes
-        boolean checkBoxPagadas = estado.get("pagada");
-        boolean checkBoxPagadas2 = estado.get("anulada");
-        boolean checkBoxPagadas3 = estado.get("cuotaFija");
-        boolean checkBoxPagadas4 = estado.get("pendientePago");
-        boolean checkBoxPagadas5 = estado.get("planPago");
+        boolean checkBoxPagadas = estado.get("pagadas");
+        boolean checkBoxAnuladas = estado.get("anuladas");
+        boolean checkBoxCuotaFija = estado.get("cuotaFija");
+        boolean checkBoxPendientesPago = estado.get("pendientesPago");
+        boolean checkBoxPlanPago = estado.get("planPago");
 
         //Lista de checkBoxes
         ArrayList<FacturasVO.Factura> listFiltro2 = new ArrayList<>();
-        if (checkBoxPagadas || checkBoxPagadas2 || checkBoxPagadas3 || checkBoxPagadas4 || checkBoxPagadas5) {
+        if (checkBoxPagadas || checkBoxAnuladas || checkBoxCuotaFija || checkBoxPendientesPago || checkBoxPlanPago) {
             for (FacturasVO.Factura factura : listFiltro) {
                 if (factura.getDescEstado().equals("Pagada") && checkBoxPagadas) {
                     listFiltro2.add(factura);
                 }
-                if (factura.getDescEstado().equals("Anuladas") && checkBoxPagadas2) {
+                if (factura.getDescEstado().equals("Anuladas") && checkBoxAnuladas) {
                     listFiltro2.add(factura);
                 }
-                if (factura.getDescEstado().equals("cuotaFija") && checkBoxPagadas3) {
+                if (factura.getDescEstado().equals("cuotaFija") && checkBoxCuotaFija) {
                     listFiltro2.add(factura);
                 }
-                if (factura.getDescEstado().equals("Pendiente de pago") && checkBoxPagadas4) {
+                if (factura.getDescEstado().equals("Pendiente de pago") && checkBoxPendientesPago) {
                     listFiltro2.add(factura);
                 }
-                if (factura.getDescEstado().equals("planPago") && checkBoxPagadas5) {
+                if (factura.getDescEstado().equals("planPago") && checkBoxPlanPago) {
                     listFiltro2.add(factura);
                 }
             }
