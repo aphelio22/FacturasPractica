@@ -17,13 +17,12 @@
         android:layout_marginBottom="@dimen/activity_horizontal_margin"
         android:orientation="vertical">
 
-
         <TextView
             android:id="@+id/item_fecha"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="TextView"
-            android:textSize="24sp"
+            android:textSize="28sp"
             app:layout_constraintBottom_toTopOf="@+id/item_estado"
             app:layout_constraintEnd_toStartOf="@+id/item_importe"
             app:layout_constraintHorizontal_bias="0.5"
@@ -50,7 +49,7 @@
             android:id="@+id/dinero"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="€"
+            android:text="@string/euro"
             android:textColor="@color/teal_200"
             android:textSize="34sp"
             app:layout_constraintBaseline_toBaselineOf="@+id/item_importe"
@@ -63,7 +62,7 @@
             android:layout_marginBottom="4dp"
             android:text="TextView"
             android:textColor="@color/pendiente"
-            android:textSize="18sp"
+            android:textSize="24sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"

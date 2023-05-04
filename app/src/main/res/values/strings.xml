@@ -16,4 +16,5 @@
     <string name="cbPlanPago">Plan de Pago</string>
     <string name="aplicarFiltros">Aplicar filtros</string>
     <string name="borrarFiltros">Borrar filtros</string>
+    <string name="euro">€</string>
 </resources>
