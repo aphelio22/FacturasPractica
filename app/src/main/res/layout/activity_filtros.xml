@@ -20,6 +20,40 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
+            <TextView
+                android:id="@+id/tvFechaEmision"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/fechaDeEmision"
+                android:textColor="@color/black"
+                android:textSize="24sp"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toTopOf="@+id/tvDesde"
+                app:layout_constraintStart_toStartOf="@+id/tvDesde"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/tvDesde"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="35dp"
+                android:text="@string/tvDesde"
+                android:textSize="16sp"
+                app:layout_constraintBottom_toTopOf="@+id/fechaDesde"
+                app:layout_constraintStart_toStartOf="@+id/fechaDesde"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/tvHasta"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="35dp"
+                android:text="@string/tvHasta"
+                android:textSize="16sp"
+                app:layout_constraintBottom_toTopOf="@+id/fechaHasta"
+                app:layout_constraintStart_toStartOf="@+id/fechaHasta"
+                app:layout_constraintTop_toTopOf="parent" />
+
             <Button
                 android:id="@+id/fechaDesde"
                 android:layout_width="wrap_content"
@@ -28,7 +62,7 @@
                 android:layout_marginTop="68dp"
                 android:layout_marginEnd="300dp"
                 android:layout_marginBottom="480dp"
-                android:text="Dia/Mes/Año"
+                android:text="@string/botonDesde"
                 android:textAllCaps="false"
                 android:textSize="16sp"
                 app:layout_constraintBottom_toBottomOf="parent"
@@ -44,7 +78,7 @@
                 android:layout_marginTop="68dp"
                 android:layout_marginEnd="140dp"
                 android:layout_marginBottom="480dp"
-                android:text="Dia/Mes/Año"
+                android:text="@string/botonHasta"
                 android:textAllCaps="false"
                 android:textSize="16sp"
                 app:layout_constraintBottom_toBottomOf="parent"
@@ -52,46 +86,54 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
-            <TextView
-                android:id="@+id/tvDesde"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="35dp"
-                android:text="Desde:"
-                android:textSize="16sp"
-                app:layout_constraintBottom_toTopOf="@+id/fechaDesde"
-                app:layout_constraintStart_toStartOf="@+id/fechaDesde"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <TextView
-                android:id="@+id/tvHasta"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="35dp"
-                android:text="Hasta:"
-                android:textSize="16sp"
-                app:layout_constraintBottom_toTopOf="@+id/fechaHasta"
-                app:layout_constraintStart_toStartOf="@+id/fechaHasta"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <TextView
-                android:id="@+id/tvFechaEmision"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Con fecha de emisión"
-                android:textColor="@color/black"
-                android:textSize="24sp"
-                android:textStyle="bold"
-                app:layout_constraintBottom_toTopOf="@+id/tvDesde"
-                app:layout_constraintStart_toStartOf="@+id/tvDesde"
-                app:layout_constraintTop_toTopOf="parent" />
-
             <View
-                android:id="@+id/view"
+                android:id="@+id/viewEmisionAImporte"
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
                 android:layout_marginTop="12dp"
                 app:layout_constraintTop_toBottomOf="@+id/fechaDesde" />
+
+            <TextView
+                android:id="@+id/tvImporteTitulo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/porImporte"
+                android:textColor="@color/black"
+                android:textSize="24sp"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toTopOf="@+id/tvMinSeekbar"
+                app:layout_constraintStart_toStartOf="@+id/seekBar"
+                app:layout_constraintTop_toBottomOf="@+id/viewEmisionAImporte" />
+
+            <TextView
+                android:id="@+id/tvMinSeekbar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/tvImporteMinimo"
+                android:textSize="16sp"
+                app:layout_constraintBottom_toTopOf="@+id/seekBar"
+                app:layout_constraintStart_toStartOf="@+id/seekBar" />
+
+            <TextView
+                android:id="@+id/valorSeekBar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:text="TextView"
+                android:textSize="16sp"
+                app:layout_constraintBottom_toTopOf="@+id/seekBar"
+                app:layout_constraintEnd_toEndOf="@+id/viewEmisionAImporte"
+                app:layout_constraintStart_toStartOf="@+id/viewEmisionAImporte"
+                app:layout_constraintTop_toBottomOf="@+id/viewEmisionAImporte" />
+
+            <TextView
+                android:id="@+id/tvMaxSeekbar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/tvImporteMaximo"
+                android:textSize="16sp"
+                app:layout_constraintBottom_toTopOf="@+id/seekBar"
+                app:layout_constraintEnd_toEndOf="@+id/seekBar" />
 
             <SeekBar
                 android:id="@+id/seekBar"
@@ -102,52 +144,10 @@
                 android:layout_marginEnd="32dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/view" />
-
-            <TextView
-                android:id="@+id/tvMinSeekbar"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="0"
-                android:textSize="16sp"
-                app:layout_constraintBottom_toTopOf="@+id/seekBar"
-                app:layout_constraintStart_toStartOf="@+id/seekBar" />
-
-            <TextView
-                android:id="@+id/tvMaxSeekbar"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="62"
-                android:textSize="16sp"
-                app:layout_constraintBottom_toTopOf="@+id/seekBar"
-                app:layout_constraintEnd_toEndOf="@+id/seekBar" />
-
-            <TextView
-                android:id="@+id/tvImporteTitulo"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Por importe"
-                android:textColor="@color/black"
-                android:textSize="24sp"
-                android:textStyle="bold"
-                app:layout_constraintBottom_toTopOf="@+id/tvMinSeekbar"
-                app:layout_constraintStart_toStartOf="@+id/seekBar"
-                app:layout_constraintTop_toBottomOf="@+id/view" />
-
-            <TextView
-                android:id="@+id/valorSeekBar"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
-                android:text="TextView"
-                android:textSize="16sp"
-                app:layout_constraintBottom_toTopOf="@+id/seekBar"
-                app:layout_constraintEnd_toEndOf="@+id/view"
-                app:layout_constraintStart_toStartOf="@+id/view"
-                app:layout_constraintTop_toBottomOf="@+id/view" />
+                app:layout_constraintTop_toBottomOf="@+id/viewEmisionAImporte" />
 
             <View
-                android:id="@+id/view2"
+                android:id="@+id/viewImporteAEstado"
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
                 android:layout_marginTop="20dp"
@@ -161,20 +161,20 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="325dp"
-                android:text="Por estado"
+                android:text="@string/porEstado"
                 android:textColor="@color/black"
                 android:textSize="24sp"
                 android:textStyle="bold"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="@+id/seekBar"
-                app:layout_constraintTop_toBottomOf="@+id/view2" />
+                app:layout_constraintTop_toBottomOf="@+id/viewImporteAEstado" />
 
             <CheckBox
                 android:id="@+id/checkBox1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="7dp"
-                android:text="Pagadas"
+                android:text="@string/cbPagadas"
                 android:textSize="20sp"
                 app:layout_constraintStart_toStartOf="@+id/tvEstadoTitulo"
                 app:layout_constraintTop_toBottomOf="@+id/tvEstadoTitulo" />
@@ -184,7 +184,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="3dp"
-                android:text="Anuladas"
+                android:text="@string/cbAnuladas"
                 android:textSize="20sp"
                 app:layout_constraintStart_toStartOf="@+id/checkBox1"
                 app:layout_constraintTop_toBottomOf="@+id/checkBox1" />
@@ -194,7 +194,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
-                android:text="Cuota Fija"
+                android:text="@string/cbCuotaFija"
                 android:textSize="20sp"
                 app:layout_constraintStart_toStartOf="@+id/anuladas"
                 app:layout_constraintTop_toBottomOf="@+id/anuladas" />
@@ -204,7 +204,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
-                android:text="Pendientes de pago"
+                android:text="@string/cbPendientesPago"
                 android:textSize="20sp"
                 app:layout_constraintStart_toStartOf="@+id/cuotaFija"
                 app:layout_constraintTop_toBottomOf="@+id/cuotaFija" />
@@ -214,10 +214,26 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
-                android:text="Plan de pago"
+                android:text="@string/cbPlanPago"
                 android:textSize="20sp"
                 app:layout_constraintStart_toStartOf="@+id/pendientesPago"
                 app:layout_constraintTop_toBottomOf="@+id/pendientesPago" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
