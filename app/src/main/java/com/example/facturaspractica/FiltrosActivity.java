@@ -35,6 +35,25 @@ public class FiltrosActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_filtros);
 
+        //Volver a la actividad principal usando la "X" del Layout
+        MenuHost menu = this;
+        menu.addMenuProvider(new MenuProvider() {
+            @Override
+            public void onCreateMenu(@NonNull Menu menu, @NonNull MenuInflater menuInflater) {
+                menuInflater.inflate(R.menu.menu_filtrillos, menu);
+            }
+
+            @Override
+            public boolean onMenuItemSelected(@NonNull MenuItem menuItem) {
+                if (menuItem.getItemId() == R.id.vuelta) {
+                    Intent intent = new Intent(FiltrosActivity.this, MainActivity.class);
+                    startActivity(intent);
+                    return true;
+                }
+                return false;
+            }
+        });
+
         //Declaración del SeekBar
         TextView valorSeekBar = (TextView) findViewById(R.id.valorSeekBar);
         int valorMax = MainActivity.maxImporte.intValue()+1;
@@ -125,24 +144,7 @@ public class FiltrosActivity extends AppCompatActivity {
             }
         });
 
-        //Volver a la actividad principal usando la "X" del Layout
-        MenuHost menu = this;
-        menu.addMenuProvider(new MenuProvider() {
-            @Override
-            public void onCreateMenu(@NonNull Menu menu, @NonNull MenuInflater menuInflater) {
-                menuInflater.inflate(R.menu.menu_filtrillos, menu);
-            }
 
-            @Override
-            public boolean onMenuItemSelected(@NonNull MenuItem menuItem) {
-                    if (menuItem.getItemId() == R.id.action_ida) {
-                        Intent intent = new Intent(FiltrosActivity.this, MainActivity.class);
-                        startActivity(intent);
-                        return true;
-                    }
-                    return false;
-            }
-        });
 
         //Funcionamiento del botón de resetear filtros
         Button resetFiltrosButton = findViewById(R.id.eliminar);
