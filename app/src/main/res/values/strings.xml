@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">FACTURAS</string>
+    <string name="app_name">Facturas</string>
     <string name="fechaDeEmision">Por fecha de emisión:</string>
     <string name="tvDesde">Desde:</string>
     <string name="tvHasta">Hasta:</string>
