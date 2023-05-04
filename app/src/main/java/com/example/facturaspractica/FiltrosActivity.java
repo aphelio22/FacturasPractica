@@ -68,6 +68,7 @@ public class FiltrosActivity extends AppCompatActivity {
         valorSeekBar.setText(String.valueOf(valorMax));
         valorActualSeekBar = valorMax;
         importeSeekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            //hola
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
                 TextView importeTextView = findViewById(R.id.valorSeekBar);
