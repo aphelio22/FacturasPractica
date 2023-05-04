@@ -29,6 +29,7 @@ public class FiltrosActivity extends AppCompatActivity {
     private SeekBar importeSeekBar;
     private int valorActualSeekBar;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -52,12 +53,14 @@ public class FiltrosActivity extends AppCompatActivity {
 
             @Override
             public void onStartTrackingTouch(SeekBar seekBar) {
-
+            //Sin función
+                Log.d("onStartTrackingTouch()", "onStartTrackingTouch: el método ha fallado ");
             }
 
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
-
+            //Sin función
+                Log.d("onStopTrackingTouch()", "onStopTrackingTouch: el método ha fallado ");
             }
         });
 
@@ -132,13 +135,12 @@ public class FiltrosActivity extends AppCompatActivity {
 
             @Override
             public boolean onMenuItemSelected(@NonNull MenuItem menuItem) {
-                switch (menuItem.getItemId()){
-                    case R.id.vuelta:
+                    if (menuItem.getItemId() == R.id.action_ida) {
                         Intent intent = new Intent(FiltrosActivity.this, MainActivity.class);
                         startActivity(intent);
                         return true;
-                }
-                return false;
+                    }
+                    return false;
             }
         });
 

@@ -44,6 +44,8 @@ public class MainActivity extends AppCompatActivity implements Callback<Facturas
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        //Para ir a la vista de filtros cuando se pulse el icono en la ToolBar
         MenuHost menu = this;
         menu.addMenuProvider(new MenuProvider() {
             @Override
@@ -53,12 +55,10 @@ public class MainActivity extends AppCompatActivity implements Callback<Facturas
 
             @Override
             public boolean onMenuItemSelected(@NonNull MenuItem menuItem) {
-
-                switch (menuItem.getItemId()) {
-                    case R.id.action_ida:
-                        Intent intent = new Intent(MainActivity.this, FiltrosActivity.class);
-                        startActivity(intent);
-                        return true;
+                if (menuItem.getItemId() == R.id.action_ida) {
+                    Intent intent = new Intent(MainActivity.this, FiltrosActivity.class);
+                    startActivity(intent);
+                    return true;
                 }
                 return false;
             }
@@ -150,6 +150,7 @@ public class MainActivity extends AppCompatActivity implements Callback<Facturas
         }
         return listFiltro;
     }
+
     //Método para filtrar por CheckBox
     private List<FacturasVO.Factura> ccomprobarChekBox(HashMap<String, Boolean> estado, List<FacturasVO.Factura> listFiltro) {
         //Comprobar si están seleccionados los checkBoxes
@@ -202,10 +203,6 @@ public class MainActivity extends AppCompatActivity implements Callback<Facturas
         params.addRule(RelativeLayout.CENTER_IN_PARENT);
         layout.addView(textView, params);
         setContentView(layout);
-
-
-
-
 
     }
 }
