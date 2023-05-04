@@ -28,7 +28,11 @@ import java.util.HashMap;
 public class FiltrosActivity extends AppCompatActivity {
     private SeekBar importeSeekBar;
     private int valorActualSeekBar;
-
+    public static final String pagadasString = "pagadas";
+    public static final String anuladasString = "anuladas";
+    public static final String cuotaFijaString = "cuotaFija";
+    public static final String pendientesPagoString = "pendientesPago";
+    public static final String planPagoString = "planPago";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -130,11 +134,11 @@ public class FiltrosActivity extends AppCompatActivity {
                 Intent intent = new Intent(FiltrosActivity.this, MainActivity.class);
                 double maxValueSlider = Double.parseDouble(valorSeekBar.getText().toString());
                 HashMap<String, Boolean> estado = new HashMap<>();
-                estado.put("pagadas", pagadas.isChecked());
-                estado.put("anuladas", anuladas.isChecked());
-                estado.put("cuotaFija", cuotaFija.isChecked());
-                estado.put("pendientesPago", pendientesPago.isChecked());
-                estado.put("planPago", planPago.isChecked());
+                estado.put(pagadasString, pagadas.isChecked());
+                estado.put(anuladasString, anuladas.isChecked());
+                estado.put(cuotaFijaString, cuotaFija.isChecked());
+                estado.put(pendientesPagoString, pendientesPago.isChecked());
+                estado.put(planPagoString, planPago.isChecked());
                 String fechaMin = fechaDesde.getText().toString();
                 String fechaMax = fechaHasta.getText().toString();
                 Filtrar miFiltro = new Filtrar(fechaMax, fechaMin, maxValueSlider, estado);
