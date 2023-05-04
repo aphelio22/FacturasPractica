@@ -13,4 +13,5 @@
     <color name="ball_blue">#21abcd</color>
     <color name="pendiente">#D50000</color>
     <color name="quitar">#a3c1ad</color>
+    <color name="titulos">#696969</color>
 </resources>
