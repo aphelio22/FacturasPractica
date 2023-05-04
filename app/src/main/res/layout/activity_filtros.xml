@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    >
+    tools:context=".FiltrosActivity">
 
     <androidx.core.widget.NestedScrollView
         android:id="@+id/scrollView"
@@ -219,24 +219,7 @@
                 app:layout_constraintStart_toStartOf="@+id/pendientesPago"
                 app:layout_constraintTop_toBottomOf="@+id/pendientesPago" />
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
         </androidx.constraintlayout.widget.ConstraintLayout>
-
     </androidx.core.widget.NestedScrollView>
 
     <Button
@@ -246,7 +229,7 @@
         android:layout_marginStart="48dp"
         android:layout_marginEnd="48dp"
         android:layout_marginBottom="8dp"
-        android:text="Aplicar filtros"
+        android:text="@string/aplicarFiltros"
         android:textAllCaps="false"
         android:textColor="@color/white"
         android:textSize="20sp"
@@ -261,11 +244,12 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="16dp"
         android:background="@android:color/transparent"
-        android:text="Borrar filtros"
+        android:text="@string/borrarFiltros"
         android:textAllCaps="false"
         android:textColor="@color/quitar"
         android:textSize="20sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="@+id/aplicar"
         app:layout_constraintStart_toStartOf="@+id/aplicar" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
