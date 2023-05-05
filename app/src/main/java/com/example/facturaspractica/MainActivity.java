@@ -91,7 +91,7 @@ public class MainActivity extends AppCompatActivity implements Callback<Facturas
                 //Se usan los métodos creados para filtrar por fecha, importe y por checkBox.
                 listFiltro = comprobrarFiltroFechas(filtrar.getFechaMax(), filtrar.getFechaMin(), listFiltro);
                 listFiltro = comprobarBarraImporte(filtrar.getMaxValuesSlider(), listFiltro);
-                listFiltro = ccomprobarChekBox(filtrar.getEstado(), listFiltro);
+                listFiltro = comprobarChekBox(filtrar.getEstado(), listFiltro);
 
                 //Se declara que si la lista está vacía se llame al método "mostrarMensajeVacio()."
                 if (listFiltro.isEmpty()){
@@ -154,7 +154,7 @@ public class MainActivity extends AppCompatActivity implements Callback<Facturas
     }
 
     //Método para filtrar por CheckBox.
-    private List<FacturasVO.Factura> ccomprobarChekBox(HashMap<String, Boolean> estado, List<FacturasVO.Factura> listFiltro) {
+    private List<FacturasVO.Factura> comprobarChekBox(HashMap<String, Boolean> estado, List<FacturasVO.Factura> listFiltro) {
         //Comprobar si están seleccionados los checkBoxes
         boolean checkBoxPagadas = estado.get(Constantes.PAGADAS_STRING);
         boolean checkBoxAnuladas = estado.get(Constantes.ANULADAS_STRING);
