@@ -1,5 +1,7 @@
 package com.example.facturaspractica;
 
+import static android.view.ViewGroup.LayoutParams.WRAP_CONTENT;
+
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.view.MenuHost;
@@ -83,7 +85,7 @@ public class MainActivity extends AppCompatActivity implements Callback<Facturas
             maxImporte = Double.valueOf(facturasList.stream().max(Comparator.comparing(FacturasVO.Factura::getImporteOrdenacion)).get().getImporteOrdenacion());
 
             //Recibir los datos desde la otra actividad en forma de objeto.
-            String recibirDatos = getIntent().getStringExtra("filtro");
+            String recibirDatos = getIntent().getStringExtra(Constantes.FILTRO_ENVIAR_RECIBIR_DATOS);
 
             //Una vez que se han recibido los datos, se filtran.
             if (recibirDatos != null) {
@@ -124,15 +126,15 @@ public class MainActivity extends AppCompatActivity implements Callback<Facturas
                 fechaMinDate = sdf.parse(fechaMin);
                 fechaMaxDate = sdf.parse(fechaMax);
             } catch (ParseException e) {
-                throw new RuntimeException(e);
+                Log.d("Error: ", "comprobrarFiltroFechas: ParseException");
             }
 
             for (FacturasVO.Factura factura : listFiltro) {
-                Date fechaFactura = null;
+                Date fechaFactura = new Date();
                 try {
                     fechaFactura = sdf.parse(factura.getFecha());
                 } catch (ParseException e) {
-                    throw new RuntimeException(e);
+                    Log.d("Error: ", "comprobrarFiltroFechas: ParseException");
                 }
                 if (fechaFactura.after(fechaMinDate) && fechaFactura.before(fechaMaxDate)) {
                     facturasFiltradas.add(factura);
@@ -165,22 +167,18 @@ public class MainActivity extends AppCompatActivity implements Callback<Facturas
         boolean checkBoxPlanPago = estado.get(Constantes.PLAN_PAGO_STRING);
 
         //Comprobación de los posibles estados de los CheckBox.
-        ArrayList<FacturasVO.Factura> listFiltro2 = new ArrayList<>();
-        if (checkBoxPagadas || checkBoxAnuladas || checkBoxCuotaFija || checkBoxPendientesPago || checkBoxPlanPago) {
-            List<FacturasVO.Factura> facturasFiltradas = new ArrayList<>();
-            for (FacturasVO.Factura factura : listFiltro) {
-                String estadoFactura = factura.getDescEstado();
-                if ((estadoFactura.equals("Pagada") && checkBoxPagadas) ||
-                        (estadoFactura.equals("Anuladas") && checkBoxAnuladas) ||
-                        (estadoFactura.equals("cuotaFija") && checkBoxCuotaFija) ||
-                        (estadoFactura.equals("Pendiente de pago") && checkBoxPendientesPago) ||
-                        (estadoFactura.equals("planPago") && checkBoxPlanPago)) {
-                    facturasFiltradas.add(factura);
-                }
+        List<FacturasVO.Factura> facturasFiltradas = new ArrayList<>();
+        for (FacturasVO.Factura factura : listFiltro) {
+            String estadoFactura = factura.getDescEstado();
+            if ((checkBoxPagadas && estadoFactura.equals("Pagada")) ||
+                    (checkBoxAnuladas && estadoFactura.equals("Anuladas")) ||
+                    (checkBoxCuotaFija && estadoFactura.equals("cuotaFija")) ||
+                    (checkBoxPendientesPago && estadoFactura.equals("Pendiente de pago")) ||
+                    (checkBoxPlanPago && estadoFactura.equals("planPago"))) {
+                facturasFiltradas.add(factura);
             }
-            listFiltro = facturasFiltradas;
         }
-        return listFiltro;
+        return facturasFiltradas;
     }
 
     //Método para mostrar mensaje de "Aquí no hay nada" cuando no hay facturas cargadas en la lista.
@@ -189,8 +187,8 @@ public class MainActivity extends AppCompatActivity implements Callback<Facturas
     //Se crea el Relative Layout.
         RelativeLayout layout = new RelativeLayout(MainActivity.this);
         RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(
-                RelativeLayout.LayoutParams.WRAP_CONTENT,
-                RelativeLayout.LayoutParams.WRAP_CONTENT
+                WRAP_CONTENT,
+                WRAP_CONTENT
         );
 
         //Creación del TextView que mostrará el mensaje de "Aquí no hay nada" si la lista de facturas está vacía.

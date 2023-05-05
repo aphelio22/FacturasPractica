@@ -58,32 +58,26 @@ public class FiltrosActivity extends AppCompatActivity {
         //Construcción de los botones de fechaDesde / fechaHasta.
         //fechaDesde.
         Button fechaDesde = (Button) findViewById(R.id.fechaDesde);
-        fechaDesde.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                final Calendar c = Calendar.getInstance();
-                int year = c.get(Calendar.YEAR);
-                int month = c.get(Calendar.MONTH);
-                int day = c.get(Calendar.DAY_OF_MONTH);
-                DatePickerDialog dpd = new DatePickerDialog(FiltrosActivity.this, (view, year1, monthofyear, dayofmonth) ->
-                        fechaDesde.setText(dayofmonth + "/" + (monthofyear+1) + "/" + year1), year, month, day);
-                dpd.show();
-            }
+        fechaDesde.setOnClickListener(v -> {
+            final Calendar c = Calendar.getInstance();
+            int year = c.get(Calendar.YEAR);
+            int month = c.get(Calendar.MONTH);
+            int day = c.get(Calendar.DAY_OF_MONTH);
+            DatePickerDialog dpd = new DatePickerDialog(FiltrosActivity.this, (view, year1, monthofyear, dayofmonth) ->
+                    fechaDesde.setText(dayofmonth + "/" + (monthofyear+1) + "/" + year1), year, month, day);
+            dpd.show();
         });
 
         //fechaHasta.
         Button fechaHasta = (Button) findViewById(R.id.fechaHasta);
-        fechaHasta.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                final Calendar c = Calendar.getInstance();
-                int year = c.get(Calendar.YEAR);
-                int month = c.get(Calendar.MONTH);
-                int day = c.get(Calendar.DAY_OF_MONTH);
-                DatePickerDialog dpd = new DatePickerDialog(FiltrosActivity.this, (view, year1, monthofyear, dayofmonth) ->
-                        fechaHasta.setText(dayofmonth + "/" + (monthofyear+1) + "/" + year1), year, month, day);
-                dpd.show();
-            }
+        fechaHasta.setOnClickListener(v -> {
+            final Calendar c = Calendar.getInstance();
+            int year = c.get(Calendar.YEAR);
+            int month = c.get(Calendar.MONTH);
+            int day = c.get(Calendar.DAY_OF_MONTH);
+            DatePickerDialog dpd = new DatePickerDialog(FiltrosActivity.this, (view, year1, monthofyear, dayofmonth) ->
+                    fechaHasta.setText(dayofmonth + "/" + (monthofyear+1) + "/" + year1), year, month, day);
+            dpd.show();
         });
 
         //Declaración del SeekBar
@@ -124,34 +118,26 @@ public class FiltrosActivity extends AppCompatActivity {
 
         //Botón para aplicar filtros y llevarlos todos como un objeto a la MainActivity.
         Button botonFiltrar = findViewById(R.id.aplicar);
-        botonFiltrar.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Gson gson = new Gson();
-                Intent intent = new Intent(FiltrosActivity.this, MainActivity.class);
-                double maxValueSlider = Double.parseDouble(valorSeekBar.getText().toString());
-                HashMap<String, Boolean> estado = new HashMap<>();
-                estado.put(Constantes.PAGADAS_STRING, pagadas.isChecked());
-                estado.put(Constantes.ANULADAS_STRING, anuladas.isChecked());
-                estado.put(Constantes.CUOTA_FIJA_STRING, cuotaFija.isChecked());
-                estado.put(Constantes.PENDIENTES_PAGO_STRING, pendientesPago.isChecked());
-                estado.put(Constantes.PLAN_PAGO_STRING, planPago.isChecked());
-                String fechaMin = fechaDesde.getText().toString();
-                String fechaMax = fechaHasta.getText().toString();
-                Filtrar miFiltro = new Filtrar(fechaMax, fechaMin, maxValueSlider, estado);
-                intent.putExtra("filtro", gson.toJson(miFiltro));
-                startActivity(intent);
-            }
+        botonFiltrar.setOnClickListener(v -> {
+            Gson gson = new Gson();
+            Intent intent = new Intent(FiltrosActivity.this, MainActivity.class);
+            double maxValueSlider = Double.parseDouble(valorSeekBar.getText().toString());
+            HashMap<String, Boolean> estado = new HashMap<>();
+            estado.put(Constantes.PAGADAS_STRING, pagadas.isChecked());
+            estado.put(Constantes.ANULADAS_STRING, anuladas.isChecked());
+            estado.put(Constantes.CUOTA_FIJA_STRING, cuotaFija.isChecked());
+            estado.put(Constantes.PENDIENTES_PAGO_STRING, pendientesPago.isChecked());
+            estado.put(Constantes.PLAN_PAGO_STRING, planPago.isChecked());
+            String fechaMin = fechaDesde.getText().toString();
+            String fechaMax = fechaHasta.getText().toString();
+            Filtrar miFiltro = new Filtrar(fechaMax, fechaMin, maxValueSlider, estado);
+            intent.putExtra(Constantes.FILTRO_ENVIAR_RECIBIR_DATOS, gson.toJson(miFiltro));
+            startActivity(intent);
         });
 
         //Funcionamiento del botón de resetear filtros
         Button resetFiltrosButton = findViewById(R.id.eliminar);
-        resetFiltrosButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                resetearFiltros();
-            }
-        });
+        resetFiltrosButton.setOnClickListener(v -> resetearFiltros());
     }
 
     //Método para restablecer los filtros con el botón de resetear filtros
