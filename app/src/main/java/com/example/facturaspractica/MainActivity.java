@@ -168,13 +168,20 @@ public class MainActivity extends AppCompatActivity implements Callback<Facturas
 
         //Comprobación de los posibles estados de los CheckBox.
         List<FacturasVO.Factura> facturasFiltradas = new ArrayList<>();
+
+        // Verificar si no se ha seleccionado ningún CheckBox
+        if (!checkBoxPagadas && !checkBoxAnuladas && !checkBoxCuotaFija && !checkBoxPendientesPago && !checkBoxPlanPago) {
+            return listFiltro; // Devolver la lista original sin aplicar ningún filtro
+        }
         for (FacturasVO.Factura factura : listFiltro) {
             String estadoFactura = factura.getDescEstado();
-            if ((checkBoxPagadas && estadoFactura.equals("Pagada")) ||
-                    (checkBoxAnuladas && estadoFactura.equals("Anuladas")) ||
-                    (checkBoxCuotaFija && estadoFactura.equals("cuotaFija")) ||
-                    (checkBoxPendientesPago && estadoFactura.equals("Pendiente de pago")) ||
-                    (checkBoxPlanPago && estadoFactura.equals("planPago"))) {
+            boolean esPagada = estadoFactura.equals("Pagada");
+            boolean esAnulada = estadoFactura.equals("Anuladas");
+            boolean esCuotaFija = estadoFactura.equals("cuotaFija");
+            boolean esPendientePago = estadoFactura.equals("Pendiente de pago");
+            boolean esPlanPago = estadoFactura.equals("planPago");
+
+            if ((esPagada && checkBoxPagadas) || (esAnulada && checkBoxAnuladas) || (esCuotaFija && checkBoxCuotaFija) || (esPendientePago && checkBoxPendientesPago) || (esPlanPago && checkBoxPlanPago)) {
                 facturasFiltradas.add(factura);
             }
         }
