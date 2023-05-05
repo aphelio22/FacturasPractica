@@ -84,6 +84,8 @@ public class MainActivity extends AppCompatActivity implements Callback<Facturas
 
             //Recibir los datos desde la otra actividad en forma de objeto.
             String recibirDatos = getIntent().getStringExtra("filtro");
+
+            //Una vez que se han recibido los datos, se filtran.
             if (recibirDatos != null) {
                 Filtrar filtrar = new Gson().fromJson(recibirDatos, Filtrar.class);
                 List<FacturasVO.Factura> listFiltro = facturasList;

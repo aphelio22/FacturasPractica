@@ -140,7 +140,6 @@ public class FiltrosActivity extends AppCompatActivity {
                 String fechaMax = fechaHasta.getText().toString();
                 Filtrar miFiltro = new Filtrar(fechaMax, fechaMin, maxValueSlider, estado);
                 intent.putExtra("filtro", gson.toJson(miFiltro));
-                Log.d("myIntent", intent.toString());
                 startActivity(intent);
             }
         });
