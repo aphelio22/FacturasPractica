@@ -148,7 +148,6 @@ public class FiltrosActivity extends AppCompatActivity {
         Button fechaHasta = findViewById(R.id.fechaHasta);
         fechaHasta.setText("Dia/Mes/Año");
 
-        //hola
     // Restablecer valor de seekBar
         SeekBar seekBar = findViewById(R.id.seekBar);
         int maxImporte = MainActivity.maxImporte.intValue() + 1;
