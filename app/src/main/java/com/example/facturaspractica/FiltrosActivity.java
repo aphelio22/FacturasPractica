@@ -17,11 +17,9 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.SeekBar;
 import android.widget.TextView;
-import android.widget.Toolbar;
 
+import com.example.facturaspractica.constantes.Constantes;
 import com.google.gson.Gson;
-
-import org.w3c.dom.Text;
 
 import java.util.Calendar;
 import java.util.HashMap;
@@ -31,11 +29,7 @@ También se crean los botones de aplicar y eliminar filtros, así como el menu e
 public class FiltrosActivity extends AppCompatActivity {
     private SeekBar importeSeekBar;
     private int valorActualSeekBar;
-    public static final String pagadasString = "pagadas";
-    public static final String anuladasString = "anuladas";
-    public static final String cuotaFijaString = "cuotaFija";
-    public static final String pendientesPagoString = "pendientesPago";
-    public static final String planPagoString = "planPago";
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -122,11 +116,11 @@ public class FiltrosActivity extends AppCompatActivity {
         });
 
         //Construcción de los checkBox.
-        CheckBox pagadas = (CheckBox) findViewById(R.id.checkBox1); //1
-        CheckBox anuladas = (CheckBox) findViewById(R.id.anuladas); //2
-        CheckBox cuotaFija = (CheckBox) findViewById(R.id.cuotaFija); //3
-        CheckBox pendientesPago = (CheckBox) findViewById(R.id.pendientesPago); //4
-        CheckBox planPago = (CheckBox) findViewById(R.id.planPago); //5
+        CheckBox pagadas = (CheckBox) findViewById(R.id.cbPagadas); //1
+        CheckBox anuladas = (CheckBox) findViewById(R.id.cbAnuladas); //2
+        CheckBox cuotaFija = (CheckBox) findViewById(R.id.cbCuotaFija); //3
+        CheckBox pendientesPago = (CheckBox) findViewById(R.id.cbPendientesPago); //4
+        CheckBox planPago = (CheckBox) findViewById(R.id.cbPlanPago); //5
 
         //Botón para aplicar filtros y llevarlos todos como un objeto a la MainActivity.
         Button botonFiltrar = findViewById(R.id.aplicar);
@@ -137,11 +131,11 @@ public class FiltrosActivity extends AppCompatActivity {
                 Intent intent = new Intent(FiltrosActivity.this, MainActivity.class);
                 double maxValueSlider = Double.parseDouble(valorSeekBar.getText().toString());
                 HashMap<String, Boolean> estado = new HashMap<>();
-                estado.put(pagadasString, pagadas.isChecked());
-                estado.put(anuladasString, anuladas.isChecked());
-                estado.put(cuotaFijaString, cuotaFija.isChecked());
-                estado.put(pendientesPagoString, pendientesPago.isChecked());
-                estado.put(planPagoString, planPago.isChecked());
+                estado.put(Constantes.PAGADAS_STRING, pagadas.isChecked());
+                estado.put(Constantes.ANULADAS_STRING, anuladas.isChecked());
+                estado.put(Constantes.CUOTA_FIJA_STRING, cuotaFija.isChecked());
+                estado.put(Constantes.PENDIENTES_PAGO_STRING, pendientesPago.isChecked());
+                estado.put(Constantes.PLAN_PAGO_STRING, planPago.isChecked());
                 String fechaMin = fechaDesde.getText().toString();
                 String fechaMax = fechaHasta.getText().toString();
                 Filtrar miFiltro = new Filtrar(fechaMax, fechaMin, maxValueSlider, estado);
@@ -178,15 +172,15 @@ public class FiltrosActivity extends AppCompatActivity {
         tvValorImporte.setText(String.valueOf(maxImporte));
 
     // Restablecer valores de checkboxes
-        CheckBox pagadas = findViewById(R.id.checkBox1);
+        CheckBox pagadas = findViewById(R.id.cbPagadas);
         pagadas.setChecked(false);
-        CheckBox anuladas = findViewById(R.id.planPago);
+        CheckBox anuladas = findViewById(R.id.cbPlanPago);
         anuladas.setChecked(false);
-        CheckBox cuotaFija = findViewById(R.id.pendientesPago);
+        CheckBox cuotaFija = findViewById(R.id.cbPendientesPago);
         cuotaFija.setChecked(false);
-        CheckBox pendientesPago = findViewById(R.id.anuladas);
+        CheckBox pendientesPago = findViewById(R.id.cbAnuladas);
         pendientesPago.setChecked(false);
-        CheckBox planPago = findViewById(R.id.cuotaFija);
+        CheckBox planPago = findViewById(R.id.cbCuotaFija);
         planPago.setChecked(false);
     }
 }

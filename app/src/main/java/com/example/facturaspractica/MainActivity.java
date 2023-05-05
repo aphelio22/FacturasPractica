@@ -8,19 +8,17 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
-import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toolbar;
 
 import com.example.facturaspractica.IO.ApiAdapter;
 import com.example.facturaspractica.IO.response.FacturasVO;
+import com.example.facturaspractica.constantes.Constantes;
 import com.google.gson.Gson;
 
 import java.text.ParseException;
@@ -158,33 +156,27 @@ public class MainActivity extends AppCompatActivity implements Callback<Facturas
     //Método para filtrar por CheckBox.
     private List<FacturasVO.Factura> ccomprobarChekBox(HashMap<String, Boolean> estado, List<FacturasVO.Factura> listFiltro) {
         //Comprobar si están seleccionados los checkBoxes
-        boolean checkBoxPagadas = estado.get(FiltrosActivity.pagadasString);
-        boolean checkBoxAnuladas = estado.get(FiltrosActivity.anuladasString);
-        boolean checkBoxCuotaFija = estado.get(FiltrosActivity.cuotaFijaString);
-        boolean checkBoxPendientesPago = estado.get(FiltrosActivity.pendientesPagoString);
-        boolean checkBoxPlanPago = estado.get(FiltrosActivity.planPagoString);
+        boolean checkBoxPagadas = estado.get(Constantes.PAGADAS_STRING);
+        boolean checkBoxAnuladas = estado.get(Constantes.ANULADAS_STRING);
+        boolean checkBoxCuotaFija = estado.get(Constantes.CUOTA_FIJA_STRING);
+        boolean checkBoxPendientesPago = estado.get(Constantes.PENDIENTES_PAGO_STRING);
+        boolean checkBoxPlanPago = estado.get(Constantes.PLAN_PAGO_STRING);
 
         //Lista de CheckBox
         ArrayList<FacturasVO.Factura> listFiltro2 = new ArrayList<>();
         if (checkBoxPagadas || checkBoxAnuladas || checkBoxCuotaFija || checkBoxPendientesPago || checkBoxPlanPago) {
+            List<FacturasVO.Factura> facturasFiltradas = new ArrayList<>();
             for (FacturasVO.Factura factura : listFiltro) {
-                if (factura.getDescEstado().equals("Pagada") && checkBoxPagadas) {
-                    listFiltro2.add(factura);
-                }
-                if (factura.getDescEstado().equals("Anuladas") && checkBoxAnuladas) {
-                    listFiltro2.add(factura);
-                }
-                if (factura.getDescEstado().equals("cuotaFija") && checkBoxCuotaFija) {
-                    listFiltro2.add(factura);
-                }
-                if (factura.getDescEstado().equals("Pendiente de pago") && checkBoxPendientesPago) {
-                    listFiltro2.add(factura);
-                }
-                if (factura.getDescEstado().equals("planPago") && checkBoxPlanPago) {
-                    listFiltro2.add(factura);
+                String estadoFactura = factura.getDescEstado();
+                if ((estadoFactura.equals("Pagada") && checkBoxPagadas) ||
+                        (estadoFactura.equals("Anuladas") && checkBoxAnuladas) ||
+                        (estadoFactura.equals("cuotaFija") && checkBoxCuotaFija) ||
+                        (estadoFactura.equals("Pendiente de pago") && checkBoxPendientesPago) ||
+                        (estadoFactura.equals("planPago") && checkBoxPlanPago)) {
+                    facturasFiltradas.add(factura);
                 }
             }
-            listFiltro = listFiltro2;
+            listFiltro = facturasFiltradas;
         }
         return listFiltro;
     }
