@@ -155,14 +155,14 @@ public class MainActivity extends AppCompatActivity implements Callback<Facturas
 
     //Método para filtrar por CheckBox.
     private List<FacturasVO.Factura> comprobarChekBox(HashMap<String, Boolean> estado, List<FacturasVO.Factura> listFiltro) {
-        //Comprobar si están seleccionados los checkBoxes
+        //Coge los estados del método "onClick()" de FiltrosActivity.
         boolean checkBoxPagadas = estado.get(Constantes.PAGADAS_STRING);
         boolean checkBoxAnuladas = estado.get(Constantes.ANULADAS_STRING);
         boolean checkBoxCuotaFija = estado.get(Constantes.CUOTA_FIJA_STRING);
         boolean checkBoxPendientesPago = estado.get(Constantes.PENDIENTES_PAGO_STRING);
         boolean checkBoxPlanPago = estado.get(Constantes.PLAN_PAGO_STRING);
 
-        //Lista de CheckBox
+        //Comprobación de los posibles estados de los CheckBox.
         ArrayList<FacturasVO.Factura> listFiltro2 = new ArrayList<>();
         if (checkBoxPagadas || checkBoxAnuladas || checkBoxCuotaFija || checkBoxPendientesPago || checkBoxPlanPago) {
             List<FacturasVO.Factura> facturasFiltradas = new ArrayList<>();
