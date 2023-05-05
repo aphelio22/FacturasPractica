@@ -84,7 +84,6 @@ public class MainActivity extends AppCompatActivity implements Callback<Facturas
             facturasList = facturas.getFacturas();
             maxImporte = Double.valueOf(facturasList.stream().max(Comparator.comparing(FacturasVO.Factura::getImporteOrdenacion)).get().getImporteOrdenacion());
 
-            //hola
             //Recibir los datos desde la otra actividad en forma de objeto.
             String recibirDatos = getIntent().getStringExtra(Constantes.FILTRO_ENVIAR_RECIBIR_DATOS);
 
