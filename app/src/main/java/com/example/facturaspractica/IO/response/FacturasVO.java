@@ -2,6 +2,7 @@ package com.example.facturaspractica.IO.response;
 
 import java.util.List;
 
+//Esta clase contiene los elementos del JSON
 public class FacturasVO {
     private int numFacturas;
     private List<Factura> facturas;

@@ -3,9 +3,17 @@ package com.example.facturaspractica;
 import java.util.HashMap;
 
 public class Filtrar {
+
+    //Representa la "fechaHasta" del filtro.
     private String fechaMax;
+
+    //Representa la "fechaDesde" del filtro.
     private String  fechaMin;
+
+    //Representa el valor máximo del Seeker.
     private double maxValuesSlider;
+
+    //Es un objeto HashMap que almacena los estados de los botones del filtro.
     private HashMap<String, Boolean> estado = new HashMap<>();
 
     public Filtrar(String fechaMax, String fechaMin, double maxValuesSlider, HashMap<String, Boolean> estado) {

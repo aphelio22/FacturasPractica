@@ -16,6 +16,7 @@ import com.example.facturaspractica.IO.response.FacturasVO;
 
 import java.util.List;
 
+//Esta clase es un adaptador cuya función principal es que se proporcionen los datos necesarios para que los elementos se muestren en el Recycler View.
 public class FacturasAdapter extends RecyclerView.Adapter<FacturasAdapter.FacturasViewHolder> {
     private List<FacturasVO.Factura> facturas;
 
@@ -29,8 +30,12 @@ public class FacturasAdapter extends RecyclerView.Adapter<FacturasAdapter.Factur
         View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.list_item, parent, false);
         return new FacturasViewHolder(v);
     }
+
     @Override
     public void onBindViewHolder(@NonNull FacturasViewHolder facturasViewHolder, int position) {
+        /*En este método se asignan los datos del elemento correspondiente a cada uno de los TextView declarados abajo,
+        además se declara que si el texto de descEstado coincide con "Pendiente de pago" se coloreará de rojo o, si no,
+        de azul.*/
         FacturasVO.Factura facturaVariable = facturas.get(position);
         facturasViewHolder.getTvFecha().setText(facturaVariable.getFecha());
         facturasViewHolder.getTvEstado().setText(facturaVariable.getDescEstado());;
@@ -43,9 +48,9 @@ public class FacturasAdapter extends RecyclerView.Adapter<FacturasAdapter.Factur
         }
     }
 
-
     @Override
     public int getItemCount() {
+        //Devuelve el número de elementos de la lista.
         return facturas.size();
     }
 
@@ -54,6 +59,8 @@ public class FacturasAdapter extends RecyclerView.Adapter<FacturasAdapter.Factur
         notifyDataSetChanged();
     }
 
+    /*En esta clase se define la interacción del usuario con los elementos de la lista y se declaran las variables de los
+    TextView que se usarán en el método "onBindViewHolder()".*/
     public class FacturasViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         private TextView tvEstado;
         private TextView tvImporte;
@@ -86,16 +93,18 @@ public class FacturasAdapter extends RecyclerView.Adapter<FacturasAdapter.Factur
 
         public FacturasViewHolder(View itemView) {
             super(itemView);
+            /*En este caso, cuando se hace click en un elemento de la lista, se muestra un diálogo de "Funcionalidad no disponible"
+             mediante la creación de una instancia de la clase "Dialog".*/
             itemView.setOnClickListener(this);
             tvEstado = (TextView) itemView.findViewById(R.id.item_estado);
             tvImporte = (TextView) itemView.findViewById(R.id.item_importe);
             tvFecha = (TextView) itemView.findViewById(R.id.item_fecha);
             mDialog = new Dialog(itemView.getContext());
-
         }
 
         @Override
         public void onClick(View v) {
+            //Construcción y creación del popup.
             mDialog.setContentView(R.layout.popup);
             mDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
             TextView mensajePopup = mDialog.findViewById(R.id.mensajePopup);
@@ -105,7 +114,7 @@ public class FacturasAdapter extends RecyclerView.Adapter<FacturasAdapter.Factur
             cerrarButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    mDialog.dismiss(); // Cierra el diálogo al pulsar el botón "Cerrar"
+                    mDialog.dismiss(); // Cierra el diálogo al pulsar el botón "Cerrar".
                 }
 
             });

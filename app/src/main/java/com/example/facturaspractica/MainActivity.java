@@ -46,7 +46,7 @@ public class MainActivity extends AppCompatActivity implements Callback<Facturas
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        //Para ir a la vista de filtros cuando se pulse el icono en la ToolBar
+        //Para ir a la vista de filtros cuando se pulse el icono de filtrar en la ToolBar.
         MenuHost menu = this;
         menu.addMenuProvider(new MenuProvider() {
             @Override
@@ -65,6 +65,8 @@ public class MainActivity extends AppCompatActivity implements Callback<Facturas
             }
         });
 
+        /*Este código configura un Recycler View para mostrar los datos de las facturas,
+        haciendo una llamada HTTP para obtenerlos y posteriormente procesar la respuesta en el método onResponse() de la actividad.*/
         rv1 = findViewById(R.id.rv1);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
         rv1.setLayoutManager(linearLayoutManager);
@@ -82,21 +84,21 @@ public class MainActivity extends AppCompatActivity implements Callback<Facturas
             facturasList = facturas.getFacturas();
             maxImporte = Double.valueOf(facturasList.stream().max(Comparator.comparing(FacturasVO.Factura::getImporteOrdenacion)).get().getImporteOrdenacion());
 
-            //Recibir los datos desde la otra actividad en forma de objeto
+            //Recibir los datos desde la otra actividad en forma de objeto.
             String recibirDatos = getIntent().getStringExtra("filtro");
             if (recibirDatos != null) {
                 Filtrar filtrar = new Gson().fromJson(recibirDatos, Filtrar.class);
                 List<FacturasVO.Factura> listFiltro = facturasList;
 
-                //Se usan los métodos creados para filtrar por fecha, importe y por checkBox
+                //Se usan los métodos creados para filtrar por fecha, importe y por checkBox.
                 listFiltro = comprobrarFiltroFechas(filtrar.getFechaMax(), filtrar.getFechaMin(), listFiltro);
                 listFiltro = comprobarBarraImporte(filtrar.getMaxValuesSlider(), listFiltro);
                 listFiltro = ccomprobarChekBox(filtrar.getEstado(), listFiltro);
 
-                //Se declara que si la lista está vacía se llame al método "mostrarMensajeVacio()"
+                //Se declara que si la lista está vacía se llame al método "mostrarMensajeVacio()."
                 if (listFiltro.isEmpty()){
                     mostrarMensajeFiltroVacio();
-                } //Si no está vacía lo que contenga "listFiltro" se carga en "facturasList"
+                } //Si no está vacía lo que contenga "listFiltro" se carga en "facturasList."
                 facturasList = listFiltro;
             }
             adaptadorFacturas = new FacturasAdapter(facturasList);
@@ -106,10 +108,11 @@ public class MainActivity extends AppCompatActivity implements Callback<Facturas
 
     @Override
     public void onFailure(Call<FacturasVO> call, Throwable t) {
-    // No OP
+    //Sin función
+        Log.d("onFailure", "onFailure: el método ha fallado. ");
     }
 
-    //Método para filtrar por fechas
+    //Método para filtrar por fechas.
     private List<FacturasVO.Factura> comprobrarFiltroFechas(String fechaMax, String fechaMin, List<FacturasVO.Factura> listFiltro) {
         ArrayList<FacturasVO.Factura> facturasFiltradas = new ArrayList<>();
         if (!fechaMin.equals("Dia/Mes/Año") && !fechaMax.equals("Dia/Mes/Año")) {
@@ -140,7 +143,7 @@ public class MainActivity extends AppCompatActivity implements Callback<Facturas
         return listFiltro;
     }
 
-    //Método para para filtrar por barra de importe
+    //Método para para filtrar por barra de importe.
     private List<FacturasVO.Factura> comprobarBarraImporte(Double importeFiltro, List<FacturasVO.Factura>listFiltro){
         ArrayList<FacturasVO.Factura> listFiltroSeekBar = new ArrayList<>();
         for (FacturasVO.Factura factura : listFiltro) {
@@ -152,7 +155,7 @@ public class MainActivity extends AppCompatActivity implements Callback<Facturas
         return listFiltro;
     }
 
-    //Método para filtrar por CheckBox
+    //Método para filtrar por CheckBox.
     private List<FacturasVO.Factura> ccomprobarChekBox(HashMap<String, Boolean> estado, List<FacturasVO.Factura> listFiltro) {
         //Comprobar si están seleccionados los checkBoxes
         boolean checkBoxPagadas = estado.get(FiltrosActivity.pagadasString);
@@ -161,7 +164,7 @@ public class MainActivity extends AppCompatActivity implements Callback<Facturas
         boolean checkBoxPendientesPago = estado.get(FiltrosActivity.pendientesPagoString);
         boolean checkBoxPlanPago = estado.get(FiltrosActivity.planPagoString);
 
-        //Lista de checkBoxes
+        //Lista de CheckBox
         ArrayList<FacturasVO.Factura> listFiltro2 = new ArrayList<>();
         if (checkBoxPagadas || checkBoxAnuladas || checkBoxCuotaFija || checkBoxPendientesPago || checkBoxPlanPago) {
             for (FacturasVO.Factura factura : listFiltro) {
@@ -186,17 +189,17 @@ public class MainActivity extends AppCompatActivity implements Callback<Facturas
         return listFiltro;
     }
 
-    //Método para mostrar mensaje de "Aquí no hay nada" cuando no hay facturas cargadas en la lista
+    //Método para mostrar mensaje de "Aquí no hay nada" cuando no hay facturas cargadas en la lista.
     private void mostrarMensajeFiltroVacio(){
 
-    //Se crea el Relative Layout y se hace visible el TextView cuando la lista está vacía
+    //Se crea el Relative Layout.
         RelativeLayout layout = new RelativeLayout(MainActivity.this);
         RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(
                 RelativeLayout.LayoutParams.WRAP_CONTENT,
                 RelativeLayout.LayoutParams.WRAP_CONTENT
         );
 
-        //Creación del TextView que mostrará el mensaje de "Aquí no hay nada" si la lista de facturas está vacía
+        //Creación del TextView que mostrará el mensaje de "Aquí no hay nada" si la lista de facturas está vacía.
         TextView textView = new TextView(MainActivity.this);
         textView.setText("Aqui no hay nada");
         textView.setTextSize(30);
