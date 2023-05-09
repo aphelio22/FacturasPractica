@@ -110,7 +110,7 @@ public class FacturasAdapter extends RecyclerView.Adapter<FacturasAdapter.Factur
             TextView mensajePopup = mDialog.findViewById(R.id.mensajePopup);
             mensajePopup.setText("Esta funcionalidad aún no está disponible");
             mDialog.show();
-            Button cerrarButton = mDialog.findViewById(R.id.botón5);
+            Button cerrarButton = mDialog.findViewById(R.id.botonCerrarPopUp);
             cerrarButton.setOnClickListener(v1 -> {
                 mDialog.dismiss(); // Cierra el diálogo al pulsar el botón "Cerrar".
             });
