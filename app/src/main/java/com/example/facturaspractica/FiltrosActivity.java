@@ -1,5 +1,8 @@
 package com.example.facturaspractica;
 
+import static com.example.facturaspractica.MainActivity.maxImporte;
+import static com.example.facturaspractica.constantes.Constantes.FILTRO_ENVIAR_RECIBIR_DATOS;
+
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.view.MenuHost;
@@ -16,19 +19,26 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.SeekBar;
+import android.widget.Switch;
 import android.widget.TextView;
 
+import com.example.facturaspractica.IO.response.FacturasVO;
 import com.example.facturaspractica.constantes.Constantes;
 import com.google.gson.Gson;
 
 import java.util.Calendar;
 import java.util.HashMap;
+import java.util.Map;
 
 /*En esta clase se costruyen los Button de la fecha, el SeekBar y los CheckBox, se meten todos en un objeto y se envían en un paquete a la MainActivity.
 También se crean los botones de aplicar y eliminar filtros, así como el menu en la ToolBar con una X para volver a la MainActivity.*/
 public class FiltrosActivity extends AppCompatActivity {
     private SeekBar importeSeekBar;
     private int valorActualSeekBar;
+
+    Filtrar filtrar = null;
+
+
 
 
     @Override
@@ -64,7 +74,7 @@ public class FiltrosActivity extends AppCompatActivity {
             int month = c.get(Calendar.MONTH);
             int day = c.get(Calendar.DAY_OF_MONTH);
             DatePickerDialog dpd = new DatePickerDialog(FiltrosActivity.this, (view, year1, monthofyear, dayofmonth) ->
-                    fechaDesde.setText(dayofmonth + "/" + (monthofyear+1) + "/" + year1), year, month, day);
+                    fechaDesde.setText(dayofmonth + "/" + (monthofyear + 1) + "/" + year1), year, month, day);
             dpd.show();
         });
 
@@ -76,13 +86,13 @@ public class FiltrosActivity extends AppCompatActivity {
             int month = c.get(Calendar.MONTH);
             int day = c.get(Calendar.DAY_OF_MONTH);
             DatePickerDialog dpd = new DatePickerDialog(FiltrosActivity.this, (view, year1, monthofyear, dayofmonth) ->
-                    fechaHasta.setText(dayofmonth + "/" + (monthofyear+1) + "/" + year1), year, month, day);
+                    fechaHasta.setText(dayofmonth + "/" + (monthofyear + 1) + "/" + year1), year, month, day);
             dpd.show();
         });
 
-        //Declaración del SeekBar
+        //Declaración del SeekBar.
         TextView valorSeekBar = (TextView) findViewById(R.id.valorSeekBar);
-        int valorMax = MainActivity.maxImporte.intValue()+1;
+        int valorMax = maxImporte.intValue() + 1;
         importeSeekBar = findViewById(R.id.seekBar);
         importeSeekBar.setMax(valorMax);
         importeSeekBar.setProgress(valorMax);
@@ -98,13 +108,13 @@ public class FiltrosActivity extends AppCompatActivity {
 
             @Override
             public void onStartTrackingTouch(SeekBar seekBar) {
-            //Sin función
+                //Sin función
                 Log.d("onStartTrackingTouch()", "onStartTrackingTouch: el método ha fallado. ");
             }
 
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
-            //Sin función
+                //Sin función
                 Log.d("onStopTrackingTouch()", "onStopTrackingTouch: el método ha fallado. ");
             }
         });
@@ -116,11 +126,29 @@ public class FiltrosActivity extends AppCompatActivity {
         CheckBox pendientesPago = (CheckBox) findViewById(R.id.cbPendientesPago); //4
         CheckBox planPago = (CheckBox) findViewById(R.id.cbPlanPago); //5
 
-        //Botón para aplicar filtros y llevarlos todos como un objeto a la MainActivity.
+        filtrar = new Gson().fromJson(getIntent().getStringExtra(FILTRO_ENVIAR_RECIBIR_DATOS), Filtrar.class);
+
+        if (filtrar != null) {
+            fechaDesde.setText(filtrar.getFechaMin());
+            fechaHasta.setText(filtrar.getFechaMax());
+            importeSeekBar.setProgress((int) filtrar.getMaxValuesSlider());
+            // Configurar los CheckBox.
+            pagadas.setChecked(filtrar.getEstado().get(Constantes.PAGADAS_STRING));
+            anuladas.setChecked(filtrar.getEstado().get(Constantes.ANULADAS_STRING));
+            cuotaFija.setChecked(filtrar.getEstado().get(Constantes.CUOTA_FIJA_STRING));
+            pendientesPago.setChecked(filtrar.getEstado().get(Constantes.PENDIENTES_PAGO_STRING));
+            planPago.setChecked(filtrar.getEstado().get(Constantes.PLAN_PAGO_STRING));
+        }
+
+
+
+
+
+
+            //Botón para aplicar filtros y llevarlos todos como un objeto a la MainActivity.
         Button botonFiltrar = findViewById(R.id.aplicar);
         botonFiltrar.setOnClickListener(v -> {
             Gson gson = new Gson();
-            Intent intent = new Intent(FiltrosActivity.this, MainActivity.class);
             double maxValueSlider = Double.parseDouble(valorSeekBar.getText().toString());
             HashMap<String, Boolean> estado = new HashMap<>();
             estado.put(Constantes.PAGADAS_STRING, pagadas.isChecked());
@@ -131,7 +159,8 @@ public class FiltrosActivity extends AppCompatActivity {
             String fechaMin = fechaDesde.getText().toString();
             String fechaMax = fechaHasta.getText().toString();
             Filtrar miFiltro = new Filtrar(fechaMax, fechaMin, maxValueSlider, estado);
-            intent.putExtra(Constantes.FILTRO_ENVIAR_RECIBIR_DATOS, gson.toJson(miFiltro));
+            Intent intent = new Intent(FiltrosActivity.this, MainActivity.class);
+            intent.putExtra(FILTRO_ENVIAR_RECIBIR_DATOS, gson.toJson(miFiltro));
             startActivity(intent);
         });
 

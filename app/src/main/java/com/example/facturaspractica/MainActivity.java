@@ -1,5 +1,4 @@
 package com.example.facturaspractica;
-
 import static android.view.ViewGroup.LayoutParams.WRAP_CONTENT;
 
 import androidx.annotation.NonNull;
@@ -34,12 +33,12 @@ import java.util.List;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-
 public class MainActivity extends AppCompatActivity implements Callback<FacturasVO> {
     private RecyclerView rv1;
     private FacturasAdapter adaptadorFacturas;
     private List<FacturasVO.Factura> facturasList;
     public static Double maxImporte = 0.0;
+    private Filtrar filtrar = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,8 +55,12 @@ public class MainActivity extends AppCompatActivity implements Callback<Facturas
 
             @Override
             public boolean onMenuItemSelected(@NonNull MenuItem menuItem) {
+                Gson gson = new Gson();
                 if (menuItem.getItemId() == R.id.action_ida) {
                     Intent intent = new Intent(MainActivity.this, FiltrosActivity.class);
+                    if (filtrar != null){
+                        intent.putExtra(Constantes.FILTRO_ENVIAR_RECIBIR_DATOS, gson.toJson(filtrar));
+                    }
                     startActivity(intent);
                     return true;
                 }
@@ -85,11 +88,11 @@ public class MainActivity extends AppCompatActivity implements Callback<Facturas
             maxImporte = Double.valueOf(facturasList.stream().max(Comparator.comparing(FacturasVO.Factura::getImporteOrdenacion)).get().getImporteOrdenacion());
 
             //Recibir los datos desde la otra actividad en forma de objeto.
-            String recibirDatos = getIntent().getStringExtra(Constantes.FILTRO_ENVIAR_RECIBIR_DATOS);
+            filtrar = new Gson().fromJson(getIntent().getStringExtra(Constantes.FILTRO_ENVIAR_RECIBIR_DATOS), Filtrar.class);
 
             //Una vez que se han recibido los datos, se filtran.
-            if (recibirDatos != null) {
-                Filtrar filtrar = new Gson().fromJson(recibirDatos, Filtrar.class);
+            if (filtrar != null) {
+
                 List<FacturasVO.Factura> listFiltro = facturasList;
 
                 //Se usan los métodos creados para filtrar por fecha, importe y por checkBox.
@@ -169,9 +172,9 @@ public class MainActivity extends AppCompatActivity implements Callback<Facturas
         //Comprobación de los posibles estados de los CheckBox.
         List<FacturasVO.Factura> facturasFiltradas = new ArrayList<>();
 
-        // Verificar si no se ha seleccionado ningún CheckBox
+        // Verificar si no se ha seleccionado ningún CheckBox.
         if (!checkBoxPagadas && !checkBoxAnuladas && !checkBoxCuotaFija && !checkBoxPendientesPago && !checkBoxPlanPago) {
-            return listFiltro; // Devolver la lista original sin aplicar ningún filtro
+            return listFiltro; // Devolver la lista original sin aplicar ningún filtro.
         }
         for (FacturasVO.Factura factura : listFiltro) {
             String estadoFactura = factura.getDescEstado();
